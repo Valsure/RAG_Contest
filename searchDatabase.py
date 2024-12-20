@@ -4,10 +4,10 @@ import requests
 
 # 配置 MySQL 数据库连接
 db_config = {
-    'host': '47.95.204.27',
+    'host': '*******',
     'port': 3306,   
-    'user': 'root',
-    'password': '123456',
+    'user': '*****',
+    'password': '*******',
     'database': 'test1'
 }
 
