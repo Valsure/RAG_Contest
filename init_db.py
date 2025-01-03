@@ -32,3 +32,4 @@ def init_sqlite_db():
 if __name__ == '__main__':
     init_sqlite_db()
     print("SQLite 数据库已初始化")
+    
