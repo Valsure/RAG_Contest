@@ -28,7 +28,7 @@ class SearchDataBase(BaseModel):
 @app.post("/generate", response_model=GenerateResponse)
 async def generate_text(request: SearchDataBase):
     try:
-        with open('/hy-tmp/project/WWW2025/liziheng/RAG/prompt.txt', 'r', encoding='utf-8') as file:  
+        with open('/hy-tmp/project/WWW2025/RAG/prompt.txt', 'r', encoding='utf-8') as file:  
             system_content = file.read()
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail="没有此prompt")

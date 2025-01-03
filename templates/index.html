@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL查询demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .banner {
+            width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="/static/banner.png" alt="Banner Image" class="banner">
+        <h1>SQL查询demo</h1>
+        <form id="queryForm">
+            <textarea name="query" placeholder="请输入查询内容"></textarea>
+            <button type="submit">提交</button>
+        </form>
+        <div class="result" id="result" style="display: none;"></div>
+    </div>
+    <script>
+        document.getElementById('queryForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const responseDiv = document.getElementById('result');
+            responseDiv.style.display = 'none';
+            responseDiv.innerHTML = '';
+
+            try {
+                const response = await fetch('/query', {
+                    method: 'POST',
+                    body: formData,
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    responseDiv.style.display = 'block';
+                    responseDiv.innerHTML = `
+                        <p><strong>生成的 SQL：</strong> ${data.sql}</p>
+                        <p><strong>查询结果：</strong> ${JSON.stringify(data.result)}</p>
+                        <p><strong>整合回答：</strong> ${data.response}</p>
+                    `;
+                } else {
+                    responseDiv.style.display = 'block';
+                    responseDiv.innerHTML = `<p><strong>错误：</strong> ${data.error}</p>`;
+                }
+            } catch (error) {
+                responseDiv.style.display = 'block';
+                responseDiv.innerHTML = `<p><strong>请求失败：</strong> ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
